@@ -11,6 +11,7 @@ int main()
     int diproses[max_data];
     int clock=0;
     int urutan_kedatangan=0;
+    int jumlah_antrian=0;
     int n;
 
 
@@ -24,9 +25,9 @@ int main()
     printf("\n");
 
     /*Membuat array antrian eksekusi*/
-    int antrian[n];
+    int antrian[n+1];
     for (int i=0; i<=n; ++i){
-        antrian[i]=i;
+        antrian[i]=0;
     }
 
     /*Isi tabel lama waktu kedatangan*/
@@ -48,6 +49,8 @@ int main()
         diproses[i] = 0;
     }
 
+    printf("\n\n");
+
     int depan = 0;
 
     /*Ngerjain satu kuantum*/
@@ -59,18 +62,34 @@ int main()
             /*Terdapat proses baru masuk*/
             if (clock==kedatangan[urutan_kedatangan]){
                 /*Tambahin ke array antrian dan kita print*/
-                printf("|  %d", clock); printf("  |  P%d",antrian[urutan_kedatangan] );
+                antrian[urutan_kedatangan]=urutan_kedatangan;
+                for(int i=0; i<=jumlah_antrian; ++i){
+                    printf("%d", clock); printf("  "); printf("%d", antrian[i]); printf("  ini kedatangan");
+                }
+                antrian[urutan_kedatangan]=urutan_kedatangan;
                 ++urutan_kedatangan;
+                ++jumlah_antrian;
             }
 
             /*jika sudah selesai kita tandai dengan nilai 9999*/
             if (diproses[antrian[depan]] == waktu[antrian[depan]]){
                 diproses[antrian[depan]] = 9999;
+                antrian[depan]=0; antrian[jumlah_antrian]=9999;
+
+                /*Menggeser antrian*/
+                for(int i=1; i<=jumlah_antrian+1; ++i){
+                    antrian[i-1]=antrian[i];
+                }
+                /*Print*/
+                for(int i=0; i<=jumlah_antrian; ++i){
+                    printf("%d", clock); printf("  "); printf("%d", antrian[i]);
+                }
             }
             ++clock;
         }
         printf("P"); printf("%d", antrian[depan]);
         ++clock;
     }
+    printf("\n\nSelesai");
     return 0;
 }
