@@ -18,13 +18,22 @@ int main()
     printf("Masukkan banyaknya data: ");
     scanf("%d", &n);
     printf("\n");
-    printf("Masukkan tabel data kedatangan dan eksekusi:\n\n");
+
+    /*Isi tabel lama waktu kedatangan*/
+    printf("Masukkan tabel data kedatangan:\n\n");
     printf("| Proses | Kedatangan |\n");
     printf("|--------|------------|\n");
-    printf("|   P1   |    100     |   50  |\n");
-    printf("|   P2   |    150     |  200  |\n");
-    printf("|   P2   |    "); scanf("%d", &kedatangan[1]);
-    printf(kedatangan[1]);
-
+    for (int i=0; i<=n; ++i){
+        printf("|   P2   |    "); scanf("%d", &kedatangan[i]);
+    }
+    printf("\n");
+    /*Isi tabel lama waktu eksekusi*/
+    printf("Masukkan tabel data waktu lama eksekusi:\n\n");
+    printf("| Proses | Kedatangan | waktu |\n");
+    printf("|--------|------------|-------|\n");
+    for (int i=0; i<=n; ++i){
+        printf("|   P2   |    "); printf("%d", kedatangan[i]); printf("     |   ");
+        scanf("%d", &waktu[i]);
+    }
     return 0;
 }
