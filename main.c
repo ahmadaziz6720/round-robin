@@ -8,6 +8,9 @@ int main()
     int max_data = 100;
     int kedatangan[max_data];
     int waktu[max_data];
+    int diproses[max_data];
+    int clock=0;
+    int urutan_kedatangan=0;
     int n;
 
 
@@ -17,6 +20,7 @@ int main()
     scanf("%d", &kuantum);
     printf("Masukkan banyaknya data: ");
     scanf("%d", &n);
+    n -= 1;
     printf("\n");
 
     /*Membuat array antrian eksekusi*/
@@ -41,6 +45,32 @@ int main()
     for (int i=0; i<=n; ++i){
         printf("|   P"); printf("%d", antrian[i]); printf("   |    "); printf("%d", kedatangan[i]); printf("     |   ");
         scanf("%d", &waktu[i]);
+        diproses[i] = 0;
+    }
+
+    int depan = 0;
+
+    /*Ngerjain satu kuantum*/
+    while(antrian[depan]!=9999){
+        while(diproses[antrian[depan]]<=kuantum){
+            /*jika clock bertepatan dengan waktu kedatangan maka print kedatangan proses*/
+            ++diproses[antrian[depan]];
+
+            /*Terdapat proses baru masuk*/
+            if (clock==kedatangan[urutan_kedatangan]){
+                /*Tambahin ke array antrian dan kita print*/
+                printf("|  %d", clock); printf("  |  P%d",antrian[urutan_kedatangan] );
+                ++urutan_kedatangan;
+            }
+
+            /*jika sudah selesai kita tandai dengan nilai 9999*/
+            if (diproses[antrian[depan]] == waktu[antrian[depan]]){
+                diproses[antrian[depan]] = 9999;
+            }
+            ++clock;
+        }
+        printf("P"); printf("%d", antrian[depan]);
+        ++clock;
     }
     return 0;
 }
