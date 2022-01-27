@@ -19,20 +19,27 @@ int main()
     scanf("%d", &n);
     printf("\n");
 
+    /*Membuat array antrian eksekusi*/
+    int antrian[n];
+    for (int i=0; i<=n; ++i){
+        antrian[i]=i;
+    }
+
     /*Isi tabel lama waktu kedatangan*/
     printf("Masukkan tabel data kedatangan:\n\n");
     printf("| Proses | Kedatangan |\n");
     printf("|--------|------------|\n");
     for (int i=0; i<=n; ++i){
-        printf("|   P2   |    "); scanf("%d", &kedatangan[i]);
+        printf("|   P"); printf("%d", antrian[i]); printf("   |    "); scanf("%d", &kedatangan[i]);
     }
     printf("\n");
+
     /*Isi tabel lama waktu eksekusi*/
     printf("Masukkan tabel data waktu lama eksekusi:\n\n");
     printf("| Proses | Kedatangan | waktu |\n");
     printf("|--------|------------|-------|\n");
     for (int i=0; i<=n; ++i){
-        printf("|   P2   |    "); printf("%d", kedatangan[i]); printf("     |   ");
+        printf("|   P"); printf("%d", antrian[i]); printf("   |    "); printf("%d", kedatangan[i]); printf("     |   ");
         scanf("%d", &waktu[i]);
     }
     return 0;
