@@ -65,6 +65,7 @@ int main()
                 antrian[urutan_kedatangan]=urutan_kedatangan;
                 for(int i=0; i<=jumlah_antrian; ++i){
                     printf("%d", clock); printf("  "); printf("%d", antrian[i]); printf("  ini kedatangan");
+                    printf("\n");
                 }
                 antrian[urutan_kedatangan]=urutan_kedatangan;
                 ++urutan_kedatangan;
@@ -83,13 +84,21 @@ int main()
                 /*Print*/
                 for(int i=0; i<=jumlah_antrian; ++i){
                     printf("%d", clock); printf("  "); printf("%d", antrian[i]);
+                    printf("\n");
                 }
             }
             ++clock;
         }
-        printf("P"); printf("%d", antrian[depan]);
+        /*Ubah ganti anrian*/
+        for(int i=1; i<=jumlah_antrian+1; ++i){
+                    antrian[i-1]=antrian[i];
+        }
+        for(int i=0; i<=jumlah_antrian; ++i){
+                    printf("%d", clock); printf("  "); printf("%d", antrian[i]);
+                    printf("\n");
         ++clock;
-    }
+        }
     printf("\n\nSelesai");
     return 0;
+    }
 }
