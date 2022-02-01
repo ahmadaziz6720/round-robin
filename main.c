@@ -4,16 +4,11 @@
 int main()
 {
     /*KAMUS*/
-    int kuantum;
-    int max_data = 100;
-    int kedatangan[max_data];
-    int waktu[max_data];
-    int diproses[max_data];
-    int clock=0;
-    int urutan_kedatangan=0;
-    int jumlah_antrian=0;
-    int n;
-
+    int kuantum;        /*nilai kuantum*/
+    int c_kuantum;      /*counter kuantum*/
+    int clock;          /*counter clock*/
+    int n;              /*jumlah data*/
+    int jumlah_antrian = 1;  /*jumlah antrian dalam antrian*/
 
     /*ALGORITMA*/
     printf("------------------------------ROUND ROBIN ALGORITHM---------------------------------\n");
@@ -21,21 +16,27 @@ int main()
     scanf("%d", &kuantum);
     printf("Masukkan banyaknya data: ");
     scanf("%d", &n);
-    n -= 1;
     printf("\n");
 
-    /*Membuat array antrian eksekusi*/
-    int antrian[n+1];
-    for (int i=0; i<=n; ++i){
-        antrian[i]=0;
+    /*INISIASI ARRAY DATA*/
+    /*{[P],[kedatangan],[lama],[terproses]}*/
+    int antrian[100][4] = {
+    {0, 0, 0, 0}   /*  initializers for row indexed by 0 */
+    };
+
+    /*MENGISI NILAI PROSES*/
+    for (int i=0; i<=n-1; ++i){
+        antrian[i][0]=i;
     }
 
     /*Isi tabel lama waktu kedatangan*/
     printf("Masukkan tabel data kedatangan:\n\n");
     printf("| Proses | Kedatangan |\n");
     printf("|--------|------------|\n");
-    for (int i=0; i<=n; ++i){
-        printf("|   P"); printf("%d", antrian[i]); printf("   |    "); scanf("%d", &kedatangan[i]);
+    for (int i=0; i<=n-1; ++i){
+        printf("|   P"); printf("%d", antrian[i][0]);
+        printf("   |    ");
+        scanf("%d", &antrian[i][1]);
     }
     printf("\n");
 
@@ -43,62 +44,85 @@ int main()
     printf("Masukkan tabel data waktu lama eksekusi:\n\n");
     printf("| Proses | Kedatangan | waktu |\n");
     printf("|--------|------------|-------|\n");
-    for (int i=0; i<=n; ++i){
-        printf("|   P"); printf("%d", antrian[i]); printf("   |    "); printf("%d", kedatangan[i]); printf("     |   ");
-        scanf("%d", &waktu[i]);
-        diproses[i] = 0;
+    for (int i=0; i<=n-1; ++i){
+        printf("|   P"); printf("%d", antrian[i][0]);
+        printf("   |    "); printf("%d", antrian[i][1]); printf("     |   ");
+        scanf("%d", &antrian[i][2]);
     }
 
-    printf("\n\n");
-
-    int depan = 0;
-
-    /*Ngerjain satu kuantum*/
-    while(antrian[depan]!=9999){
-        while(diproses[antrian[depan]]<=kuantum){
-            /*jika clock bertepatan dengan waktu kedatangan maka print kedatangan proses*/
-            ++diproses[antrian[depan]];
-
-            /*Terdapat proses baru masuk*/
-            if (clock==kedatangan[urutan_kedatangan]){
-                /*Tambahin ke array antrian dan kita print*/
-                antrian[urutan_kedatangan]=urutan_kedatangan;
-                for(int i=0; i<=jumlah_antrian; ++i){
-                    printf("%d", clock); printf("  "); printf("%d", antrian[i]); printf("  ini kedatangan");
-                    printf("\n");
-                }
-                antrian[urutan_kedatangan]=urutan_kedatangan;
-                ++urutan_kedatangan;
-                ++jumlah_antrian;
-            }
-
-            /*jika sudah selesai kita tandai dengan nilai 9999*/
-            if (diproses[antrian[depan]] == waktu[antrian[depan]]){
-                diproses[antrian[depan]] = 9999;
-                antrian[depan]=0; antrian[jumlah_antrian]=9999;
-
-                /*Menggeser antrian*/
-                for(int i=1; i<=jumlah_antrian+1; ++i){
-                    antrian[i-1]=antrian[i];
-                }
-                /*Print*/
-                for(int i=0; i<=jumlah_antrian; ++i){
-                    printf("%d", clock); printf("  "); printf("%d", antrian[i]);
-                    printf("\n");
-                }
-            }
-            ++clock;
+    /*PRINT TABEL DATA ANTRIAN*/
+    for (int i=0; i<=n-1; ++i){
+        for (int j=0; j<=3; ++j){
+            printf("|"); printf("%d", antrian[i][j]); printf("|");
         }
-        /*Ubah ganti anrian*/
-        for(int i=1; i<=jumlah_antrian+1; ++i){
-                    antrian[i-1]=antrian[i];
+        printf("\n");
+    }
+
+    printf("\n");
+    printf("\n");
+
+
+    /*ALGORITMA ROUND ROBIN*/
+    /*{[P],[kedatangan],[lama],[terproses]}*/
+
+    /*PENGULANGAN SELAMA SATU KUANTUM*/
+    while (jumlah_antrian>0){
+        while (c_kuantum<=kuantum){
+            /*JIKA ADA YANG BARU DATANG*/
+            if (clock==antrian[jumlah_antrian][1]){ /*clock == waktu kedatangan*/
+                /*masukin antrian dan print*/
+                for(int i=0; i<=jumlah_antrian-1; ++i){
+                    printf(" | P%d", antrian[i][0], " |");
+                }
+                printf("| %d", clock);
+                printf("\n");
+                jumlah_antrian +=1;
+            };
+
+            /*JIKA PROSES SELESAI*/
+            if (antrian[0][3]==antrian[0][2]){
+                for(int j=0; j<=3; ++j){
+                        antrian[jumlah_antrian][j]=antrian[0][j];
+                    }
+                for(int i=0; i<=jumlah_antrian-1; ++i){
+                    for(int j=0; j<=3; ++j){
+                        antrian[i][j]=antrian[i+1][j];
+                    }
+                }
+                for(int i=0; i<=jumlah_antrian-1; ++i){
+                    printf(" | P%d", antrian[i][0], " |");
+                }
+                printf("| %d", clock);
+                printf("\n");
+                jumlah_antrian-=1;
+            };
+            antrian[0][3] += 1;
+            clock += 1;
+            c_kuantum+=1;
+        };
+        c_kuantum=0;
+        /*GESER ANTRIAN*/
+        for(int j=0; j<=3; ++j){
+            antrian[jumlah_antrian][j]=antrian[0][j];
         }
         for(int i=0; i<=jumlah_antrian; ++i){
-                    printf("%d", clock); printf("  "); printf("%d", antrian[i]);
-                    printf("\n");
-        ++clock;
+            for(int j=0; j<=3; ++j){
+                antrian[i][j]=antrian[i+1][j];
+            }
         }
-    printf("\n\nSelesai");
-    return 0;
+        for(int i=0; i<=jumlah_antrian-1; ++i){
+            printf(" | P%d", antrian[i][0], " |");
+        }
+        printf("| %d", clock);
     }
+    printf("\n");
+    printf("\n");
+    /*PRINT TABEL DATA ANTRIAN*/
+    for (int i=0; i<=n-1; ++i){
+        for (int j=0; j<=3; ++j){
+            printf("|"); printf("%d", antrian[i][j]); printf("|");
+        }
+        printf("\n");
+    }
+    return 0;
 }
