@@ -5,8 +5,8 @@ int main()
 {
     /*KAMUS*/
     int kuantum;        /*nilai kuantum*/
-    int c_kuantum;      /*counter kuantum*/
-    int clock;          /*counter clock*/
+    int c_kuantum=0;      /*counter kuantum*/
+    int clock=0;          /*counter clock*/
     int n;              /*jumlah data*/
     int jumlah_antrian = 1;  /*jumlah antrian dalam antrian*/
 
@@ -67,11 +67,11 @@ int main()
 
     /*PENGULANGAN SELAMA SATU KUANTUM*/
     while (jumlah_antrian>0){
-        while (c_kuantum<=kuantum){
-            /*JIKA ADA YANG BARU DATANG*/
+        for(int i=0; i<kuantum; ++i){
+                        /*JIKA ADA YANG BARU DATANG*/
             if (clock==antrian[jumlah_antrian][1]){ /*clock == waktu kedatangan*/
                 /*masukin antrian dan print*/
-                for(int i=0; i<=jumlah_antrian-1; ++i){
+                for(int i=0; i<=jumlah_antrian; ++i){
                     printf(" | P%d", antrian[i][0], " |");
                 }
                 printf("| %d", clock);
@@ -84,11 +84,11 @@ int main()
             if (antrian[0][3]==antrian[0][2]){
                 for(int j=0; j<=3; ++j){
                         antrian[jumlah_antrian][j]=antrian[0][j];
-                    }
+                }
                 for(int i=0; i<=jumlah_antrian-1; ++i){
                     for(int j=0; j<=3; ++j){
                         antrian[i][j]=antrian[i+1][j];
-                    }
+                }
                 }
                 for(int i=0; i<=jumlah_antrian-1; ++i){
                     printf(" | P%d", antrian[i][0], " |");
@@ -100,9 +100,7 @@ int main()
             };
             antrian[0][3] += 1;
             clock += 1;
-            c_kuantum+=1;
-        };
-        c_kuantum=0;
+        }
         /*GESER ANTRIAN*/
         for(int j=0; j<=3; ++j){
             antrian[jumlah_antrian][j]=antrian[0][j];
