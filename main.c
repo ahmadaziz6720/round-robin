@@ -75,6 +75,7 @@ int main()
                     printf(" | P%d", antrian[i][0], " |");
                 }
                 printf("| %d", clock);
+                printf("kedatangan");
                 printf("\n");
                 jumlah_antrian +=1;
             };
@@ -93,6 +94,7 @@ int main()
                     printf(" | P%d", antrian[i][0], " |");
                 }
                 printf("| %d", clock);
+                printf("selesai");
                 printf("\n");
                 jumlah_antrian-=1;
             };
@@ -114,6 +116,8 @@ int main()
             printf(" | P%d", antrian[i][0], " |");
         }
         printf("| %d", clock);
+        printf("selesai kuantum");
+        printf("\n");
     }
     printf("\n");
     printf("\n");
